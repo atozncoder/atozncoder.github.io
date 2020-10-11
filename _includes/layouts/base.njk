@@ -3,14 +3,46 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title or metadata.title }}</title>
-    <meta name="description" content="{{ description or metadata.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ renderData.title or title or metadata.title }}">
+    <meta property="og:site_name" content="Goldius company site">
+    <title>{{ renderData.title or title or metadata.title }}</title>
+    <meta name="description" content="{{ renderData.description or description or metadata.description }}">
+    <meta name="author" content="Aleksandar Zlatkovic">
+
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ '/css/index.css' | url }}">
     <link rel="stylesheet" href="{{ '/css/prism-base16-monokai.dark.css' | url }}">
     <link rel="alternate" href="{{ metadata.feed.path | url }}" type="application/atom+xml" title="{{ metadata.title }}">
     <link rel="alternate" href="{{ metadata.jsonfeed.path | url }}" type="application/json" title="{{ metadata.title }}">
+
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-28773758-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'TODO');
+  </script>
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org/",
+      "@type": "Person",
+      "name": "Aleksandar Zlatkovic",
+      "alternateName": "Vlada, Svlada",
+      "url": "https://www.goldius.org",
+      "image": "",
+      "sameAs": [
+          "https://github.com/atozncoder",
+          "https://twitter.com/alekszlatkovic",
+          "https://www.linkedin.com/in/aleksandarzlatkovic/"
+      ]
+  }
+  </script>
   </head>
-  <body>
+  <body class="center">
     <header>
       <h1 class="home"><a href="{{ '/' | url }}">{{ metadata.title }}</a></h1>
 
@@ -23,17 +55,6 @@
     </header>
 
     <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
-
-      <!-- Delete this message -->
-      <div class="warning">
-        <ol>
-          <li>Edit the <code>_data/metadata.json</code> with your blog’s information.</li>
-          <li>(Optional) Edit <code>.eleventy.js</code> with your <a href="https://www.11ty.dev/docs/config/">configuration preferences</a>.</li>
-          <li>Delete this message from <code>_includes/layouts/base.njk</code>.</li>
-        </ol>
-        <p><em>This is an <a href="https://www.11ty.dev/">Eleventy project</a> created from the <a href="https://github.com/11ty/eleventy-base-blog"><code>eleventy-base-blog</code> repo</a>.</em></p>
-      </div>
-      <!-- Stop deleting -->
 
       {{ content | safe }}
     </main>

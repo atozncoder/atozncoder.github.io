@@ -8,6 +8,29 @@
   --blue: #082840;
   --white: #fff;
 }
+
+@media only screen and (min-device-width: 414px) {
+  .postlist-date { display: none; }
+}
+
+@media only screen and (min-width: 768px) {
+  .center {
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+  }
+  
+}
+
+@media only screen and (min-width: 960px) {
+  .center {
+    margin: 0 auto 10px auto;
+    padding: 10px;
+    width: 700px;
+  }
+  .postlist-date { display: inline-block; }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -115,6 +138,11 @@ pre {
 }
 
 /* Header */
+
+.postlist-item a {
+  text-decoration: none;
+}
+
 .home {
   padding: 0 1rem;
   float: left;
@@ -151,16 +179,9 @@ pre {
 }
 .postlist-item {
   counter-increment: start-from -1;
+  line-height: 2rem;
 }
-.postlist-item:before {
-  display: inline-block;
-  pointer-events: none;
-  content: "" counter(start-from, decimal-leading-zero) ". ";
-  line-height: 100%;
-  text-align: right;
-}
-.postlist-date,
-.postlist-item:before {
+.postlist-date {
   font-size: 0.8125em; /* 13px /16 */
   color: var(--darkgray);
 }
