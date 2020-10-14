@@ -1,0 +1,14 @@
+---
+layout: layouts/home.njk
+title: Available positions
+templateClass: tmpl-post
+eleventyNavigation:
+  key: Jobs
+  order: 3
+---
+
+<h1>{{ title }}</h1>
+
+{% set postslist = collections.jobs | head(-3) %}
+{% set postslistCounter = collections.posts | length %}
+{% include "postslist.njk" %}
