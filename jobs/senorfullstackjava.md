@@ -7,6 +7,12 @@ tags:
 layout: layouts/post.njk
 ---
 
+### Our culture
+You would be working for a client that competes with giants such as Google and Facebook. Learning to work in such an environment is priceless. The challenges that you will be facing in such an environment will put you in the position of professional growth.
+
+If you are excited to meet new challenges and to improve your skills to the point that you can be one of the best in the business, read the remainder of the description and contact us to arrange a meeting.
+ 
+
 ### A Little About The Role
 The APO Engineering group is focused on building next generation demand side advertising platform solutions. This includes a O&O Sales UI solution and APIs to allow for programmatic DSP integrations. It also includes planning and configuration tools to manage the O&O advertising space. Our team designs and supports many of the systems, tools, and processes that allow for the execution of online advertising campaigns to meet the needs of our clients. The role will require working on processes, simplifying systems, and reducing complexity of user interfaces across our platform in order to deliver best in class customer experiences.
 
