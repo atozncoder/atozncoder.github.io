@@ -7,8 +7,8 @@ tags:
 layout: layouts/post.njk
 ---
 
-### Our culture
-You would be working for a client that competes with giants such as Google and Facebook. Learning to work in such an environment is priceless. The challenges that you will be facing in such an environment will put you in the position of professional growth.
+### The chalange
+You would be working for a client that competes with giants such as Google and Facebook. Learning to work in such an environment is priceless. The challenges that you will be facing in such environment will put you in the position of personal and professional growth.
 
 If you are excited to meet new challenges and to improve your skills to the point that you can be one of the best in the business, read the remainder of the description and contact us to arrange a meeting.
 
