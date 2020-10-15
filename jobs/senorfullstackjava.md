@@ -11,6 +11,8 @@ layout: layouts/post.njk
 You would be working for a client that competes with giants such as Google and Facebook. Learning to work in such an environment is priceless. The challenges that you will be facing in such an environment will put you in the position of professional growth.
 
 If you are excited to meet new challenges and to improve your skills to the point that you can be one of the best in the business, read the remainder of the description and contact us to arrange a meeting.
+
+## [Send your CV](mailto:goldius.jobs@gmail.com)
  
 
 ### A Little About The Role
@@ -39,3 +41,5 @@ As a senior software engineer you will be working with product managers and othe
 * Good knowledge of SQL or NOSQL databases techniques
 * The ability to deliver results in a fast-paced, deadline-driven environment that requires ability to handle multiple tasks simultaneously without compromising quality
 * Strong interpersonal skills and the ability to work independently as well as in a team environment
+
+## [Send your CV](mailto:goldius.jobs@gmail.com)
