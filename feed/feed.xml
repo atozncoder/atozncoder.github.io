@@ -13,20 +13,84 @@
 	</author>
 	
 	<entry>
-		<title>Netty SSL secured chat.</title>
-		<link href="https://goldius.org/posts/nettysecuredchat/"/>
+		<title>draft</title>
+		<link href="https://goldius.org/posts/nettyreloadablesslcertificate/"/>
 		<updated>2020-10-01T00:00:00+00:00</updated>
-		<id>https://goldius.org/posts/nettysecuredchat/</id>
-		<content type="html">&lt;p&gt;Under construction!&lt;/p&gt;
+		<id>https://goldius.org/posts/nettyreloadablesslcertificate/</id>
+		<content type="html">&lt;p&gt;Please check the &lt;a href=&quot;https://goldius.org/posts/casignednettysecuredchat/&quot;&gt;Netty SSL with CA signed certificates&lt;/a&gt; before continuing to read this one to learn how set basic netty SSL client server. Once we have basic netty SSL client server working we need to enable server to reload SSL certificates without restarting.&lt;/p&gt;
+&lt;h2 id=&quot;the-theory&quot;&gt;The theory &lt;a class=&quot;direct-link&quot; href=&quot;#the-theory&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Main idea here is to implement a delegate SSL context that would load/reoload SSL context and delegate all methods to it.&lt;/p&gt;
 </content>
 	</entry>
 	
 	<entry>
-		<title>Netty reloadable SSL certificate.</title>
-		<link href="https://goldius.org/posts/nettyreloadablesslcertificate/"/>
+		<title>Netty SSL with CA signed certificates</title>
+		<link href="https://goldius.org/posts/casignednettysecuredchat/"/>
 		<updated>2020-10-01T00:00:00+00:00</updated>
-		<id>https://goldius.org/posts/nettyreloadablesslcertificate/</id>
-		<content type="html">&lt;p&gt;Under construction!&lt;/p&gt;
+		<id>https://goldius.org/posts/casignednettysecuredchat/</id>
+		<content type="html">&lt;h2 id=&quot;server-certificate&quot;&gt;Server certificate &lt;a class=&quot;direct-link&quot; href=&quot;#server-certificate&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;In the description of the &lt;a href=&quot;https://tools.ietf.org/html/rfc5246&quot;&gt;TLS&lt;/a&gt; protocol for &lt;a href=&quot;https://tools.ietf.org/html/rfc5246#page-47&quot;&gt;Server certificate&lt;/a&gt; it states that it&#39;s structure is a sequence (chain) of certificates where the servers&#39;s certificate MUST come first in the list. Each following certificate MUST directly certify the one preceding it. Image below taken from the &lt;a href=&quot;https://www.ssl.com/article/browsers-and-certificate-validation/&quot;&gt;Browsers and Certificate Validation&lt;/a&gt; shows this in more details:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://goldius.org/img/casignednettysecuredchat/certification_paths.png&quot; alt=&quot;cert_chain&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;create-the-certificates&quot;&gt;Create the certificates &lt;a class=&quot;direct-link&quot; href=&quot;#create-the-certificates&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Process to create certificates that can be used for test application can be found &lt;a href=&quot;https://help.f-secure.com/product.html#business/threatshield/latest/en/concept_E8E015C30E05412190F22C5DFC36AC0B-threatshield-latest-en&quot;&gt;here&lt;/a&gt;. For our example just following steps are needed:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.f-secure.com/product.html#business/threatshield/latest/en/task_50407934989D4923AB76367EA0E627CA-threatshield-latest-en&quot;&gt;Create a self-signed root CA certificate&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.f-secure.com/product.html#business/threatshield/latest/en/task_9EF132D90B9241268DF4EC8CA5FADBBF-threatshield-latest-en&quot;&gt;Create an intermediate CA certificate for creating other certificates&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://help.f-secure.com/product.html#business/threatshield/latest/en/task_D81B8959CD3643C5A9E8DD0E2A4EF32E-threatshield-latest-en&quot;&gt;Create a leaf certificate for the webserver of the web UI&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Please note that for real production system real CA cert is needed and not self signed one.&lt;/p&gt;
+&lt;h2 id=&quot;configure-server-ssl-context&quot;&gt;Configure Server SSL context &lt;a class=&quot;direct-link&quot; href=&quot;#configure-server-ssl-context&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Once certs are created, we need to setup our application to use them. For server we need following files:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;server.key - Server public key.&lt;/li&gt;
+&lt;li&gt;server.pem - Server private key.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If we look our example folder structure, this is how it can be setup:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://goldius.org/img/casignednettysecuredchat/server_certs_folder_strucutre.png&quot; alt=&quot;server_certs_folder_strucutre&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Now if we configure path to the certs in our config file:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;server.cert.path=/certs/server/server.pem
+server.key.path=/certs/server/server.key
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I am using &lt;a href=&quot;http://owner.aeonbits.org/&quot;&gt;OWNER&lt;/a&gt; for configuration. This is not required for netty SSL.&lt;/p&gt;
+&lt;p&gt;Then the following code can be used to load SSL context for server:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;InputStream keyCertChainIS = getClass().getResourceAsStream(cfg.serverCertPath());
+InputStream keyIS = getClass().getResourceAsStream(cfg.serverKeyPath());
+sslCtx = SslContextBuilder.forServer(keyCertChainIS, keyIS).build();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;configure-client-ssl-context&quot;&gt;Configure Client SSL context &lt;a class=&quot;direct-link&quot; href=&quot;#configure-client-ssl-context&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We need to import our root CA to be trusted root CA to our client. We need:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;rootCA.crt - Root CA cert file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In our example it is setup as follows:&lt;br&gt;
+&lt;img src=&quot;https://goldius.org/img/casignednettysecuredchat/client_ca_cert_folder_structure.png&quot; alt=&quot;client_ca_cert_folder_structure&quot;&gt;&lt;/p&gt;
+&lt;p&gt;And we load it with following code:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;final SslContext sslCtx = SslContextBuilder.forClient()
+        .trustManager(getInputStream())
+        .build();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;where we get the input stream as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (&amp;quot;classpath&amp;quot;.equalsIgnoreCase(cfg.sslStreamReader())) {
+    return getClass().getResourceAsStream(cfg.clientCertPath());
+} else {
+    return new FileInputStream(cfg.clientCertPath());
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and we have path to cert in classpath configured as follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;client.cert.path=/certs/client/rootCA.crt
+ssl.stream.reader=classpath
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;complete-example-and-demo&quot;&gt;Complete example and demo &lt;a class=&quot;direct-link&quot; href=&quot;#complete-example-and-demo&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The complete sample code can be found here:&lt;a href=&quot;https://github.com/atozncoder/netty_secured_chat&quot;&gt;https://github.com/atozncoder/netty_secured_chat&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It can be tested by performing following steps:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mvn clean package
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In one terminal start the server:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;java -jar target/netty_seccured_chat-1.0-SNAPSHOT-jar-with-dependencies.jar
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In another terminal start a client:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;java -jar target/netty_seccured_chat-1.0-SNAPSHOT-jar-with-dependencies.jar client
+&lt;/code&gt;&lt;/pre&gt;
 </content>
 	</entry>
 </feed>

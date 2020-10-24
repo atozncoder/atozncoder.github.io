@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Netty SSL with CA signed certificates">
+    <meta property="og:site_name" content="Goldius company site">
+    <title>Netty SSL with CA signed certificates</title>
+    <meta name="description" content="Netty SSL with CA(trusted certificate authority) signed certificates.">
+    <meta name="author" content="Aleksandar Zlatkovic">
+
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/prism-base16-monokai.dark.css">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Goldius Software Company">
+    <link rel="alternate" href="/feed/feed.json" type="application/json" title="Goldius Software Company">
+
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180696615-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'UA-180696615-1');
+  </script>
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org/",
+      "@type": "Person",
+      "name": "Aleksandar Zlatkovic",
+      "alternateName": "Vlada, Svlada",
+      "url": "https://www.goldius.org",
+      "image": "",
+      "sameAs": [
+          "https://github.com/atozncoder",
+          "https://twitter.com/alekszlatkovic",
+          "https://www.linkedin.com/in/aleksandarzlatkovic/"
+      ]
+  }
+  </script>
+  </head>
+  <body class="center">
+    <header>
+      <h1 class="home"><a href="/">Goldius Software Company</a></h1>
+      <ul class="nav">
+        <li class="nav-item"><a href="/">Home</a></li>
+        <li class="nav-item"><a href="/posts/">Archive</a></li>
+        <li class="nav-item"><a href="/jbos/">Jobs</a></li>
+        <li class="nav-item"><a href="/about/">About Me</a></li>
+      </ul>
+    </header>
+
+    <main class="tmpl-post">
+
+      <h1>Netty SSL with CA signed certificates</h1>
+
+<h2 id="server-certificate">Server certificate <a class="direct-link" href="#server-certificate">#</a></h2>
+<p>In the description of the <a href="https://tools.ietf.org/html/rfc5246">TLS</a> protocol for <a href="https://tools.ietf.org/html/rfc5246#page-47">Server certificate</a> it states that it's structure is a sequence (chain) of certificates where the servers's certificate MUST come first in the list. Each following certificate MUST directly certify the one preceding it. Image below taken from the <a href="https://www.ssl.com/article/browsers-and-certificate-validation/">Browsers and Certificate Validation</a> shows this in more details:</p>
+<p><img src="/img/casignednettysecuredchat/certification_paths.png" alt="cert_chain"></p>
+<h2 id="create-the-certificates">Create the certificates <a class="direct-link" href="#create-the-certificates">#</a></h2>
+<p>Process to create certificates that can be used for test application can be found <a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/concept_E8E015C30E05412190F22C5DFC36AC0B-threatshield-latest-en">here</a>. For our example just following steps are needed:</p>
+<ul>
+<li><a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/task_50407934989D4923AB76367EA0E627CA-threatshield-latest-en">Create a self-signed root CA certificate</a></li>
+<li><a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/task_9EF132D90B9241268DF4EC8CA5FADBBF-threatshield-latest-en">Create an intermediate CA certificate for creating other certificates</a></li>
+<li><a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/task_D81B8959CD3643C5A9E8DD0E2A4EF32E-threatshield-latest-en">Create a leaf certificate for the webserver of the web UI</a></li>
+</ul>
+<p>Please note that for real production system real CA cert is needed and not self signed one.</p>
+<h2 id="configure-server-ssl-context">Configure Server SSL context <a class="direct-link" href="#configure-server-ssl-context">#</a></h2>
+<p>Once certs are created, we need to setup our application to use them. For server we need following files:</p>
+<ul>
+<li>server.key - Server public key.</li>
+<li>server.pem - Server private key.</li>
+</ul>
+<p>If we look our example folder structure, this is how it can be setup:</p>
+<p><img src="/img/casignednettysecuredchat/server_certs_folder_strucutre.png" alt="server_certs_folder_strucutre"></p>
+<p>Now if we configure path to the certs in our config file:</p>
+<pre><code>server.cert.path=/certs/server/server.pem
+server.key.path=/certs/server/server.key
+</code></pre>
+<p><strong>Note</strong>: I am using <a href="http://owner.aeonbits.org/">OWNER</a> for configuration. This is not required for netty SSL.</p>
+<p>Then the following code can be used to load SSL context for server:</p>
+<pre><code>InputStream keyCertChainIS = getClass().getResourceAsStream(cfg.serverCertPath());
+InputStream keyIS = getClass().getResourceAsStream(cfg.serverKeyPath());
+sslCtx = SslContextBuilder.forServer(keyCertChainIS, keyIS).build();
+</code></pre>
+<h2 id="configure-client-ssl-context">Configure Client SSL context <a class="direct-link" href="#configure-client-ssl-context">#</a></h2>
+<p>We need to import our root CA to be trusted root CA to our client. We need:</p>
+<ul>
+<li>rootCA.crt - Root CA cert file</li>
+</ul>
+<p>In our example it is setup as follows:<br>
+<img src="/img/casignednettysecuredchat/client_ca_cert_folder_structure.png" alt="client_ca_cert_folder_structure"></p>
+<p>And we load it with following code:</p>
+<pre><code>final SslContext sslCtx = SslContextBuilder.forClient()
+        .trustManager(getInputStream())
+        .build();
+</code></pre>
+<p>where we get the input stream as follows:</p>
+<pre><code>if (&quot;classpath&quot;.equalsIgnoreCase(cfg.sslStreamReader())) {
+    return getClass().getResourceAsStream(cfg.clientCertPath());
+} else {
+    return new FileInputStream(cfg.clientCertPath());
+}
+</code></pre>
+<p>and we have path to cert in classpath configured as follows:</p>
+<pre><code>client.cert.path=/certs/client/rootCA.crt
+ssl.stream.reader=classpath
+</code></pre>
+<h2 id="complete-example-and-demo">Complete example and demo <a class="direct-link" href="#complete-example-and-demo">#</a></h2>
+<p>The complete sample code can be found here:<a href="https://github.com/atozncoder/netty_secured_chat">https://github.com/atozncoder/netty_secured_chat</a></p>
+<p>It can be tested by performing following steps:</p>
+<pre><code>mvn clean package
+</code></pre>
+<p>In one terminal start the server:</p>
+<pre><code>java -jar target/netty_seccured_chat-1.0-SNAPSHOT-jar-with-dependencies.jar
+</code></pre>
+<p>In another terminal start a client:</p>
+<pre><code>java -jar target/netty_seccured_chat-1.0-SNAPSHOT-jar-with-dependencies.jar client
+</code></pre>
+
+
+<hr>
+<ul>
+</ul>
+
+    </main>
+
+    <footer></footer>
+
+    <!-- Current page: /posts/casignednettysecuredchat/ -->
+  </body>
+</html>
