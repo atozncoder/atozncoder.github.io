@@ -30,35 +30,8 @@ Based on the above we can repleace our server certificate at any time. Client th
 Following diagram shows two clients connecting to server with TLS cert reloaded:
 ![tls_reload](/img/nettyreloadablesslcertificate/tls_reload.png)
 
-
-
-Now, 
-Please check the [Netty SSL with CA signed certificates](/posts/casignednettysecuredchat/) before continuing to read this one to learn how to setup netty TLS client server certificates. Once we have basic netty SSL client server working we need to enable server to reload SSL certificates without restarting.
-
-## The problem
-
-
-To secure Netty server, we can setup TLS as discussed in previous post. What about refreshing the server cert? It has to be done from time to time. It will expire eventually. Also security requiremetns often assume that cert has to be refreshed periodically.
-
-
-## Design
-The solution is based on the fact that that TLS use symetric encription to encrypt and decrypt traffic between client and server. When nagotiating the TLS session at some point client and server create the session key and use it for symetric encryption.
-
-
-More details on how this handshake process works can be found in [What is a TLS handshake?](https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/) article on Cloudflare. 
-
-<!-- Main idea here is to implement a delegating SSL context that would load/reoload SSL context and delegate all methods to it. -->
-
-
-We will skip the details here, but the important thing to note is the step #6 from mentioned article. This step states: 
-*Session keys created*: Both client and server generate session keys from the client random, the server random, and the premaster secret. They should arrive at the same results.
-
-What this means is that certificate is only used for handshake and for cration of session key in process of establishing the session. Each new session will create new session key.
-
-Based on the above we can repleace our server certificate at any time. Client that is already connected to server will not lose connection as it already nagotiated session key. Later clients can handshake with new key loaded in the meantime. Both clients should be able to stay connected, regardles to the server cert used for TLS handshake.
-
-Following diagram shows two clients connecting to server with TLS cert reloaded:
-![tls_reload](/img/nettyreloadablesslcertificate/tls_reload.png)
+## Netty Server Bootstraping
+Netty server bootstraping involves binding a process to a given port for each client that requests a connection. Each time a requests for a connection is received, netty server creates a channel and binds a port. In this process and when SSL is enabled, netty will load SSL engine. We can plugin our implementatio of `SslContext` here and take over the cert load process from disk or wherever the cert files are stored.
 
 
 
