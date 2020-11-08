@@ -1,6 +1,6 @@
 ---
-title: Netty SSL with CA signed certificates
-description: Netty SSL with CA(trusted certificate authority) signed certificates.
+title: Netty SSL/TLS with CA signed certificates
+description: Netty SSL/TLS with CA(trusted certificate authority) signed certificates.
 date: 2020-10-01
 tags:
   - posts-tag
