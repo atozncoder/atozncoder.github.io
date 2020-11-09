@@ -66,7 +66,7 @@ If you are interesed in working on high class problems that include Java, AWS, b
 
 <p>Security is hot topic these days. Data has to be protected. Regulations have to be followed. Encrypted is the buzzword and more often than not SSL/TLS is a way to do it.</p>
 <p>Setting SSL/TLS implies having valid CA signed certificate on the server.  Please check the previous post, <a href="/posts/casignednettysecuredchat/">Netty SSL with CA signed certificates</a>, for explanations on how to create SSL certificates and used them to run netty secured chat example.</p>
-<p>In addition more often then not security standards require for certificates to be reloaded periodically. To solve this some basic understanding of TLS handshake and Netty channel bootstrapping is required.</p>
+<p>In addition more often than not security standards require for certificates to be reloaded periodically. To solve this some basic understanding of TLS handshake and Netty channel bootstrapping is required.</p>
 <h2 id="tls%2Fssl-handshake">TLS/SSL handshake <a class="direct-link" href="#tls%2Fssl-handshake">#</a></h2>
 <p>TLS use symetric encription to encrypt and decrypt traffic between client and server. When nagotiating the TLS session at some point client and server create the session key and use it for symetric encryption.</p>
 <p>More details on how this handshake process works can be found in <a href="https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/">What is a TLS handshake?</a> article on Cloudflare.</p>
