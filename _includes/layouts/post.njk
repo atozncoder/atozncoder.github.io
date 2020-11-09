@@ -4,16 +4,23 @@ templateClass: tmpl-post
 ---
 <h1>{{ title }}</h1>
 
-<h2><a href="/jobs">We are hiring</a></h2>
+{%- if tags.includes('posts') %}
+<div style="background-color: lightgrey">
+<h3><a href="/jobs">We are hiring</a></h3>
 If you are interesed in working on high class problems that include Java, AWS, big data and much, much more, join us.
 <h4><a href="/jobs"><font color="red">Click to checkout available positions.</font></a></h4>
-
+</div>
+{%- endif %}
 
 {{ content | safe }}
 
-<h2><a href="/jobs">We are hiring</a></h2>
+{%- if tags.includes('posts') %}
+<div style="background-color: lightgrey">
+<h3><a href="/jobs">We are hiring</a></h3>
 If you are interesed in working on high class problems that include Java, AWS, big data and much, much more, join us.
 <h4><a href="/jobs"><font color="red">Click to checkout available positions.</font></a></h4>
+</div>
+{%- endif %}
 
 
 <hr>

@@ -8,11 +8,11 @@ tags:
 layout: layouts/post.njk
 ---
 
-Security is hot topic these days. Data has to be protected. Regulations have to be followed. Encrypted is the buzzword. SSL/TLS is a way to do it. 
+Security is hot topic these days. Data has to be protected. Regulations have to be followed. Encrypted is the buzzword and more often than not SSL/TLS is a way to do it. 
 
-Setting SSL/TLS implies having valid CA signed certificate on the server.  Please check the previous post,[Netty SSL with CA signed certificates](/posts/casignednettysecuredchat/), for explanations on how to create SSL certificates and used them to run netty secured chat example. In addition more often then not security standards require for certificates to be reloaded periodically.
+Setting SSL/TLS implies having valid CA signed certificate on the server.  Please check the previous post, [Netty SSL with CA signed certificates](/posts/casignednettysecuredchat/), for explanations on how to create SSL certificates and used them to run netty secured chat example. 
 
-To solve this some basic understanding of TLS handshake and Netty channel bootstrapping is required.
+In addition more often then not security standards require for certificates to be reloaded periodically. To solve this some basic understanding of TLS handshake and Netty channel bootstrapping is required.
 
 ## TLS/SSL handshake
 TLS use symetric encription to encrypt and decrypt traffic between client and server. When nagotiating the TLS session at some point client and server create the session key and use it for symetric encryption.
