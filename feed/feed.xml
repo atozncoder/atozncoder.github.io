@@ -13,7 +13,7 @@
 	</author>
 	
 	<entry>
-		<title>Netty reloading SSL/TLS certificate.</title>
+		<title>Netty reloading SSL/TLS certificate</title>
 		<link href="https://goldius.org/posts/nettyreloadablesslcertificate/"/>
 		<updated>2020-10-09T00:00:00+00:00</updated>
 		<id>https://goldius.org/posts/nettyreloadablesslcertificate/</id>
