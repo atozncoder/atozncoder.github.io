@@ -1,5 +1,5 @@
 ---
-title: Netty reloading SSL/TLS certificate.
+title: Netty reloading SSL/TLS certificate
 description: Reloading SSL certificate without restarting the server.
 date: 2020-10-09
 tags:
