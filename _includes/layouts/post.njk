@@ -4,8 +4,31 @@ templateClass: tmpl-post
 ---
 <h1>{{ title }}</h1>
 
+{%- if tags.includes('posts') %}
+<div style="background-color: lightgrey">
+<h3><a href="/jobs">We are hiring</a></h3>
+If you are interesed in working on high class problems that include Java, AWS, big data and much, much more, join us.
+<h4><a href="/jobs"><font color="red">Click to checkout available positions.</font></a></h4>
+</div>
+{%- endif %}
+
 {{ content | safe }}
+
+{%- if tags.includes('posts') %}
+<div style="background-color: lightgrey">
+<h3><a href="/jobs">We are hiring</a></h3>
+If you are interesed in working on high class problems that include Java, AWS, big data and much, much more, join us.
+<h4><a href="/jobs"><font color="red">Click to checkout available positions.</font></a></h4>
+</div>
+{%- endif %}
 
 
 <hr>
+<ul>
+  {%- set nextPostCandidate = collections.posts | getNextCollectionItem(page) %}
+  {%- set nextPost = nextPostCandidate if (nextPostCandidate.data.title != 'draft') %}
+  {%- if nextPost %}<li>Next: <a href="{{ nextPost.url | url }}">{{ nextPost.data.title }}</a></li>{% endif %}
+  {%- set previousPost = collections.posts | getPreviousCollectionItem(page) %}
+  {%- if previousPost %}<li>Previous: <a href="{{ previousPost.url | url }}">{{ previousPost.data.title }}</a></li>{% endif %}
+</ul>
 
