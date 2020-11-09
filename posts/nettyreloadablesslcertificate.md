@@ -13,8 +13,10 @@ Setting SSL/TLS implies having valid CA signed certificate on the server.  Pleas
 
 In addition more often than not security standards require for certificates to be reloaded periodically. To solve this some basic understanding of TLS handshake and Netty channel bootstrapping is required.
 
+Let’s begin…
+
 ## TLS/SSL handshake
-TLS use symetric encription to encrypt and decrypt traffic between client and server. When nagotiating the TLS session at some point client and server create the session key and use it for symetric encryption.
+TLS use symmetric encryption to encrypt and decrypt traffic between client and server. When negotiating the TLS session at some point client and server create the session key and use it for symmetric encryption.
 
 
 More details on how this handshake process works can be found in [What is a TLS handshake?](https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/) article on Cloudflare. 
@@ -22,15 +24,15 @@ More details on how this handshake process works can be found in [What is a TLS 
 We will skip the details here, but the important thing to note is the step #6 from mentioned article. This step states: 
 **6. Session keys created**: *Both client and server generate session keys from the client random, the server random, and the premaster secret. They should arrive at the same results.*
 
-What this means is that certificate is only used for handshake and for cration of session key in process of establishing the session. Each new session will create new session key.
+What this means is that certificate is only used for handshake and for creation of session key in process of establishing the session. Each new session will create new session key.
 
-Based on the above we can repleace our server certificate at any time. Client that is already connected to server will not lose connection as it already nagotiated session key. Later clients can handshake with new key loaded in the meantime. Both clients should be able to stay connected, regardles to the server cert used for TLS handshake.
+Based on the above we can replace our server certificate at any time. Client that is already connected to server will not lose connection as it already negotiated session key. Later clients can handshake with new key loaded in the meantime. Both clients should be able to stay connected, regardless to the server cert used for TLS handshake.
 
 Following diagram shows two clients connecting to server with TLS cert reloaded:
 ![tls_reload](/img/nettyreloadablesslcertificate/tls_reload.png)
 
-## Netty Server Bootstraping
-Netty server bootstraping involves binding a process to a given port for each client that requests a connection. Each time a requests for a connection is received, netty server creates a channel and binds a port. In this process and when SSL is enabled, netty will load SSL engine. We can plugin our implementatio of `SslContext` here and take over the cert load process from disk or wherever the cert files are stored.
+## Netty Server Bootstrapping
+Netty server bootstrapping involves binding a process to a given port for each client that requests a connection. Each time a requests for a connection is received, netty server creates a channel and binds a port. In this process and when SSL is enabled, netty will load SSL engine. We can plugin our implementation of `SslContext` here and take over the cert load process from disk or wherever the cert files are stored.
 
 
 
@@ -89,7 +91,7 @@ public void start() throws InterruptedException, SSLException {
 }
 ```
 
-And then the secure channel server initializer uses it as follows:
+And then the secure channel server initialiser uses it as follows:
 ```
 pipeline.addLast(sslCtx.newHandler(ch.alloc()));
 ```
