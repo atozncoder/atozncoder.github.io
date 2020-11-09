@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Netty SSL with CA signed certificates">
+    <meta property="og:title" content="Netty SSL/TLS with CA signed certificates">
     <meta property="og:site_name" content="Goldius company site">
-    <title>Netty SSL with CA signed certificates</title>
-    <meta name="description" content="Netty SSL with CA(trusted certificate authority) signed certificates.">
+    <title>Netty SSL/TLS with CA signed certificates</title>
+    <meta name="description" content="Netty SSL/TLS with CA(trusted certificate authority) signed certificates.">
     <meta name="author" content="Aleksandar Zlatkovic">
 
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -33,7 +33,7 @@
       "@context": "http://schema.org/",
       "@type": "Person",
       "name": "Aleksandar Zlatkovic",
-      "alternateName": "Vlada, Svlada",
+      "alternateName": "Goldius, atozncoder, NCODER",
       "url": "https://www.goldius.org",
       "image": "",
       "sameAs": [
@@ -50,14 +50,19 @@
       <ul class="nav">
         <li class="nav-item"><a href="/">Home</a></li>
         <li class="nav-item"><a href="/posts/">Archive</a></li>
-        <li class="nav-item"><a href="/jbos/">Jobs</a></li>
+        <li class="nav-item"><a href="/jobs/">Jobs</a></li>
         <li class="nav-item"><a href="/about/">About Me</a></li>
       </ul>
     </header>
 
     <main class="tmpl-post">
 
-      <h1>Netty SSL with CA signed certificates</h1>
+      <h1>Netty SSL/TLS with CA signed certificates</h1>
+<div style="background-color: lightgrey">
+<h3><a href="/jobs">We are hiring</a></h3>
+If you are interesed in working on high class problems that include Java, AWS, big data and much, much more, join us.
+<h4><a href="/jobs"><font color="red">Click to checkout available positions.</font></a></h4>
+</div>
 
 <h2 id="server-certificate">Server certificate <a class="direct-link" href="#server-certificate">#</a></h2>
 <p>In the description of the <a href="https://tools.ietf.org/html/rfc5246">TLS</a> protocol for <a href="https://tools.ietf.org/html/rfc5246#page-47">Server certificate</a> it states that it's structure is a sequence (chain) of certificates where the servers's certificate MUST come first in the list. Each following certificate MUST directly certify the one preceding it. Image below taken from the <a href="https://www.ssl.com/article/browsers-and-certificate-validation/">Browsers and Certificate Validation</a> shows this in more details:</p>
@@ -123,10 +128,17 @@ ssl.stream.reader=classpath
 <pre><code>java -jar target/netty_seccured_chat-1.0-SNAPSHOT-jar-with-dependencies.jar client
 </code></pre>
 
+<div style="background-color: lightgrey">
+<h3><a href="/jobs">We are hiring</a></h3>
+If you are interesed in working on high class problems that include Java, AWS, big data and much, much more, join us.
+<h4><a href="/jobs"><font color="red">Click to checkout available positions.</font></a></h4>
+</div>
+
 
 <hr>
-<ul>
+<ul><li>Next: <a href="/posts/nettyreloadablesslcertificate/">Netty reloading SSL/TLS certificate.</a></li>
 </ul>
+
 
     </main>
 
