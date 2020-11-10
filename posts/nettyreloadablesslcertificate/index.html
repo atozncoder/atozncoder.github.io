@@ -133,6 +133,9 @@ Code example:</p>
 <p>And then the secure channel server initialiser uses it as follows:</p>
 <pre><code>pipeline.addLast(sslCtx.newHandler(ch.alloc()));
 </code></pre>
+<p>And we can call it to relaod certs any time we want, we just provide the path to cert files:</p>
+<pre><code>sslContext).reload(cfg.serverCertPath2(), cfg.serverKeyPath2())
+</code></pre>
 <h2 id="demo">Demo <a class="direct-link" href="#demo">#</a></h2>
 <p>Checkout or download the sourece code from git: <a href="https://github.com/atozncoder/netty_secured_chat/tree/relodable_ssl">https://github.com/atozncoder/netty_secured_chat/tree/relodable_ssl</a></p>
 <p>Use relodable_ssl branch.</p>
