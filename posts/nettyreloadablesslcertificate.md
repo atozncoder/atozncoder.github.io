@@ -96,6 +96,11 @@ And then the secure channel server initialiser uses it as follows:
 pipeline.addLast(sslCtx.newHandler(ch.alloc()));
 ```
 
+And we can call it to relaod certs any time we want, we just provide the path to cert files:
+```
+sslContext).reload(cfg.serverCertPath2(), cfg.serverKeyPath2())
+```
+
 ## Demo
 
 Checkout or download the sourece code from git: https://github.com/atozncoder/netty_secured_chat/tree/relodable_ssl
