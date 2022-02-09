@@ -15,10 +15,10 @@ In the description of the [TLS](https://tools.ietf.org/html/rfc5246) protocol fo
 
 
 ## Create the certificates
-Process to create certificates that can be used for test application can be found [here](https://help.f-secure.com/product.html#business/threatshield/latest/en/concept_E8E015C30E05412190F22C5DFC36AC0B-threatshield-latest-en). For our example just following steps are needed:
-* [Create a self-signed root CA certificate](https://help.f-secure.com/product.html#business/threatshield/latest/en/task_50407934989D4923AB76367EA0E627CA-threatshield-latest-en)
-* [Create an intermediate CA certificate for creating other certificates](https://help.f-secure.com/product.html#business/threatshield/latest/en/task_9EF132D90B9241268DF4EC8CA5FADBBF-threatshield-latest-en)
-* [Create a leaf certificate for the webserver of the web UI](https://help.f-secure.com/product.html#business/threatshield/latest/en/task_D81B8959CD3643C5A9E8DD0E2A4EF32E-threatshield-latest-en)
+Process to create certificates that can be used for test application can be found [here](https://github.com/atozncoder/netty_secured_chat/blob/master/README.md). For our example just following steps are needed:
+* [Create a self-signed root CA certificate](https://github.com/atozncoder/netty_secured_chat/blob/master/CERTS_SELF_SIGNED_ROOT.md)
+* [Create an intermediate CA certificate for creating other certificates](https://github.com/atozncoder/netty_secured_chat/blob/master/CERTS_INTERMEDIATE.md)
+* [Create a leaf certificate for the webserver of the web UI](https://github.com/atozncoder/netty_secured_chat/blob/master/CERTS_LEAF.md)
 
 Please note that for real production system real CA cert is needed and not self signed one.
 
