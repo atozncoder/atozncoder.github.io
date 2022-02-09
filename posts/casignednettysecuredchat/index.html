@@ -64,11 +64,11 @@
 <p>In the description of the <a href="https://tools.ietf.org/html/rfc5246">TLS</a> protocol for <a href="https://tools.ietf.org/html/rfc5246#page-47">Server certificate</a> it states that it's structure is a sequence (chain) of certificates where the servers's certificate MUST come first in the list. Each following certificate MUST directly certify the one preceding it. Image below taken from the <a href="https://www.ssl.com/article/browsers-and-certificate-validation/">Browsers and Certificate Validation</a> shows this in more details:</p>
 <p><img src="/img/casignednettysecuredchat/certification_paths.png" alt="cert_chain"></p>
 <h2 id="create-the-certificates">Create the certificates <a class="direct-link" href="#create-the-certificates">#</a></h2>
-<p>Process to create certificates that can be used for test application can be found <a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/concept_E8E015C30E05412190F22C5DFC36AC0B-threatshield-latest-en">here</a>. For our example just following steps are needed:</p>
+<p>Process to create certificates that can be used for test application can be found <a href="https://github.com/atozncoder/netty_secured_chat/blob/master/README.md">here</a>. For our example just following steps are needed:</p>
 <ul>
-<li><a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/task_50407934989D4923AB76367EA0E627CA-threatshield-latest-en">Create a self-signed root CA certificate</a></li>
-<li><a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/task_9EF132D90B9241268DF4EC8CA5FADBBF-threatshield-latest-en">Create an intermediate CA certificate for creating other certificates</a></li>
-<li><a href="https://help.f-secure.com/product.html#business/threatshield/latest/en/task_D81B8959CD3643C5A9E8DD0E2A4EF32E-threatshield-latest-en">Create a leaf certificate for the webserver of the web UI</a></li>
+<li><a href="https://github.com/atozncoder/netty_secured_chat/blob/master/CERTS_SELF_SIGNED_ROOT.md">Create a self-signed root CA certificate</a></li>
+<li><a href="https://github.com/atozncoder/netty_secured_chat/blob/master/CERTS_INTERMEDIATE.md">Create an intermediate CA certificate for creating other certificates</a></li>
+<li><a href="https://github.com/atozncoder/netty_secured_chat/blob/master/CERTS_LEAF.md">Create a leaf certificate for the webserver of the web UI</a></li>
 </ul>
 <p>Please note that for real production system real CA cert is needed and not self signed one.</p>
 <h2 id="configure-server-ssl-context">Configure Server SSL context <a class="direct-link" href="#configure-server-ssl-context">#</a></h2>
